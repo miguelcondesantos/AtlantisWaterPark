@@ -1,0 +1,10 @@
+.navBar {
+    background-color: #80cbc4;
+    font-size: 25px;
+}
+
+a {
+    color: #1976d2 !important;
+    padding-right: 55px !important;
+    font-size: 20px;
+}

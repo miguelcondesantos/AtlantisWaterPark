@@ -1,0 +1,14 @@
+.div {
+    position: relative;
+    background-color: #4cb2ff;
+    border-radius: 10px;
+    height: 550px;
+    margin: auto;
+    margin-top: 6%;
+    overflow: auto;
+}
+
+.div h1 {
+    text-align: center;
+}
+

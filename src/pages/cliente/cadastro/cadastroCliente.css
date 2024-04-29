@@ -1,0 +1,38 @@
+.cadastro{
+    position: relative;
+    background-color: #4cb2ff;
+    border-radius: 25px;
+    width: 50%;
+    text-align: center;
+    margin: auto;
+    margin-top: 6%;
+}
+
+.botao{
+    color: #1976d2;
+    background-color: #80cbc4;
+    font-size: 20px;
+    margin-bottom: 20px;
+    width: 200px;
+    height: 50px;
+    display: inline-block;
+}
+
+.select{
+    font-size: 15px;
+    color: black !important;
+}
+
+.form{
+    position: relative;
+}
+
+h1{
+    color: #f6f6f6;
+    border-radius: 50%;
+}
+
+h3{
+    color: #f6f6f6;
+    padding-top: 10px;
+}
