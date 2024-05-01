@@ -1,59 +1,48 @@
-import NavBar from "../../../navbar/navbar";
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
-import "./cadastroCliente.css"
+import NavBar from "../../../navbar/navbar"
+import "./cadastroDependente.css"
 
-export default function CadastroCliente() {
+
+export default function CadastroDependente () {
     return (
         <>
-            <NavBar />
+            <NavBar/>
             <Container>
-                <div className="cadastro"> 
-                    <h1>Cadastro do Cliente</h1>
-
+                <div className='cadastro'>
+                    <h1>Cadastro do Dependente</h1> 
                     <Form className="form">
                         <Container>
                             <h3>Informações</h3>
-                            <Row className="mb-3">
+                            <Row className='mb-3'>
                                 <Col md={6}>
                                     <Form.Group>
-                                        <Form.Label>Nome do Cliente</Form.Label>
+                                        <Form.Label>Nome do Dependente</Form.Label>
                                         <Form.Control
                                             required
                                             type="text"
-                                            placeholder="Nome"
-                                            name="nome"
+                                            placeholder='Nome'
+                                            name="name"
                                         />
                                     </Form.Group>
                                 </Col>
                                 <Col md={6}>
                                     <Form.Group>
-                                        <Form.Label>Nome Social do Cliente</Form.Label>
+                                        <Form.Label>Nome Social do Dependente</Form.Label>
                                         <Form.Control
                                             required
                                             type="text"
-                                            placeholder="Nome social"
-                                            name="nomeSocial"
+                                            placeholder='Nome Social'
+                                            name="name"
                                         />
                                     </Form.Group>
                                 </Col>
                                 <Col md={6}>
                                     <Form.Group>
-                                        <Form.Label>Data de nascimento do Cliente</Form.Label>
+                                        <Form.Label>Data de Nascimento do Dependente</Form.Label>
                                         <Form.Control
                                             required
                                             type="date"
                                             name="dataNascimento"
-                                        />
-                                    </Form.Group>
-                                </Col>
-                                <Col md={6}>
-                                    <Form.Group>
-                                        <Form.Label>Telefone</Form.Label>
-                                        <Form.Control
-                                            required
-                                            type="text"
-                                            placeholder="Telefone"
-                                            name="telefone"
                                         />
                                     </Form.Group>
                                 </Col>
@@ -62,14 +51,14 @@ export default function CadastroCliente() {
 
                         <Container>
                             <h3>Endereço</h3>
-                            <Row className="mb-3">
+                            <Row className='mb-3'>
                                 <Col md={6}>
                                     <Form.Group>
                                         <Form.Label>Rua</Form.Label>
                                         <Form.Control
                                             required
                                             type="text"
-                                            placeholder="Rua"
+                                            placeholder='Rua'
                                             name="rua"
                                         />
                                     </Form.Group>
@@ -80,7 +69,7 @@ export default function CadastroCliente() {
                                         <Form.Control
                                             required
                                             type="text"
-                                            placeholder="Bairro"
+                                            placeholder='Bairro'
                                             name="bairro"
                                         />
                                     </Form.Group>
@@ -91,7 +80,7 @@ export default function CadastroCliente() {
                                         <Form.Control
                                             required
                                             type="text"
-                                            placeholder="Cidade"
+                                            placeholder='Cidade'
                                             name="cidade"
                                         />
                                     </Form.Group>
@@ -102,8 +91,8 @@ export default function CadastroCliente() {
                                         <Form.Control
                                             required
                                             type="text"
-                                            placeholder="Estado"
-                                            name="estado"
+                                            placeholder='Estado'
+                                            name="Estado"
                                         />
                                     </Form.Group>
                                 </Col>
@@ -113,7 +102,7 @@ export default function CadastroCliente() {
                                         <Form.Control
                                             required
                                             type="text"
-                                            placeholder="País"
+                                            placeholder='País'
                                             name="pais"
                                         />
                                     </Form.Group>
@@ -124,56 +113,34 @@ export default function CadastroCliente() {
                                         <Form.Control
                                             required
                                             type="text"
-                                            placeholder="Código Postal"
+                                            placeholder='Código Postal'
                                             name="codigoPostal"
                                         />
                                     </Form.Group>
                                 </Col>
                             </Row>
                         </Container>
-                        
+
                         <Container>
-                            <h3>Documentos</h3>
+                            <h3>A Qual Cliente o Dependente será Cadastrado ?</h3>
                             <Row className="mb-3">
-                                <Col md={6}>
+                                <Col Col md={6}> 
                                     <Form.Group>
-                                        <Form.Label>Registro Geral</Form.Label>
+                                        <Form.Label>Id Cliente</Form.Label>
                                         <Form.Control
                                             required
-                                            type="text"
-                                            placeholder="RG"
-                                            name="rg"
-                                        />
-                                    </Form.Group>
-                                </Col>
-                                <Col md={6}>
-                                    <Form.Group>
-                                        <Form.Label>Cadastro de Pessoa Física</Form.Label>
-                                        <Form.Control
-                                            required
-                                            type="text"
-                                            placeholder="CPF"
-                                            name="cpf"
-                                        />
-                                    </Form.Group>
-                                </Col>
-                                <Col md={6}>
-                                    <Form.Group>
-                                        <Form.Label>Passaporte</Form.Label>
-                                        <Form.Control
-                                            required
-                                            type="text"
-                                            placeholder="Passaporte"
-                                            name="passaporte"
+                                            type='number'
+                                            placeholder='Id Cliente'
+                                            name="idCliente"
                                         />
                                     </Form.Group>
                                 </Col>
                             </Row>
                         </Container>
-                        <Button className="botao" type="submit">Finalizar</Button>
-                    </Form>
+                        <Button className='botao' type="submit">Finalizar</Button>
+                    </Form>  
                 </div>
             </Container>
         </>
-    );
+    )
 }

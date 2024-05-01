@@ -1,20 +1,21 @@
-import NavBar from "../../../navbar/navbar";
 import { Container, Table, Button, Form } from 'react-bootstrap';
-import "./listarCliente.css"
+import "./listarDependente.css";
+import NavBar from '../../../navbar/navbar';
 
-export default function ListarCliente() {
-    const clientes = [
-        { id: 1, nome: 'Cliente 1'},
-        { id: 2, nome: 'Cliente 2'},
-    ]
+export default function ListarDependente() {
+    const dependentes = [
+        { id: 1, nome: 'Dependente 1', nomeCliente: "Cliente 1"},
+        { id: 2, nome: 'Dependente 2', nomeCliente: "Cliente 1" },
+        { id: 3, nome: 'Dependente 3', nomeCliente: "Cliente 2" },
+    ];
 
     return (
-        <Container className="div"> 
+        <Container className="div">
             <NavBar />
-            <h1>Lista de Clientes</h1>
+            <h1>Lista de Dependentes</h1>
             <Form className="mb-4">
                 <Form.Group controlId="formBusca">
-                    <Form.Control type="text" placeholder="Buscar cliente por nome" />
+                    <Form.Control type="text" placeholder="Buscar dependente por nome" />
                 </Form.Group>
             </Form>
             <Table striped bordered hover className="mb-4">
@@ -22,14 +23,16 @@ export default function ListarCliente() {
                     <tr>
                         <th>Id</th>
                         <th>Nome</th>
+                        <th>Cliente</th>
                         <th>Opções</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {clientes.map(clientes => (
+                    {dependentes.map(dependente => (
                         <tr>
-                            <td>{clientes.id}</td>
-                            <td>{clientes.nome}</td>
+                            <td>{dependente.id}</td>
+                            <td>{dependente.nome}</td>
+                            <td>{dependente.nomeCliente}</td> 
                             <td>
                                 <Button variant="primary" size="sm" className="me-2">Editar</Button>
                                 <Button variant="danger" size="sm">Excluir</Button>

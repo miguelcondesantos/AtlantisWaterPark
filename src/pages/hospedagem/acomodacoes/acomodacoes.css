@@ -1,14 +1,10 @@
-.div {
+.aaaa {
     position: relative;
     background-color: #4cb2ff;
-    border-radius: 10px;
-    height: 600px;
+    border-radius: 25px;
+    width: 50%;
+    text-align: center;
     margin: auto;
     margin-top: 6%;
     overflow: auto;
 }
-
-.div h1 {
-    text-align: center;
-}
-

@@ -19,13 +19,13 @@ export default function NavBar() {
                                 <NavDropdown.Item href='/listarCliente'>Listar</NavDropdown.Item>
                             </NavDropdown>
                             <NavDropdown title="Dependente" id="dependente-dropdown">
-                                <NavDropdown.Item href=''>Cadastrar</NavDropdown.Item>
-                                <NavDropdown.Item href=''>Lista</NavDropdown.Item>
+                                <NavDropdown.Item href='/cadastroDependente'>Cadastrar</NavDropdown.Item>
+                                <NavDropdown.Item href='/listarDependente'>Lista</NavDropdown.Item>
                             </NavDropdown>
                             <NavDropdown title="Hospedagem" id="hospedagem-dropdown">
-                                <NavDropdown.Item href="">Acomodações</NavDropdown.Item>
-                                <NavDropdown.Item href="">Realizar Hospedagem</NavDropdown.Item>
-                                <NavDropdown.Item href="">Listar Hópedes</NavDropdown.Item>
+                                <NavDropdown.Item href="/acomodacoes">Acomodações</NavDropdown.Item>
+                                <NavDropdown.Item href="/realizarHospedagem">Realizar Hospedagem</NavDropdown.Item>
+                                <NavDropdown.Item href="/listarHospedes">Listar Hópedes</NavDropdown.Item>
                             </NavDropdown>
                         </Nav>
                     </Navbar.Collapse>
