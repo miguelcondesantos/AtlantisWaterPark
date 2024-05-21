@@ -2,6 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
+const Jimp = require('jimp');
+const ascii = require('ascii-art');
 
 
 const app = express();
@@ -19,17 +21,45 @@ const client = new MongoClient(uri, {
 app.use(cors());
 app.use(bodyParser.json());
 
+
 async function run() {
   try {
     await client.connect();
-    console.log("Connected to MongoDB!");
+    console.log("Conectado 👌");
   } catch (e) {
     console.error(e);
   }
 }
-
 run();
 
+async function processAndShowImage() {
+  try {
+    // Processa a imagem
+    const image = await Jimp.read('SUS.jpg');
+    await image.resize(100, Jimp.AUTO).writeAsync('imagem-processada.jpg');
+
+    // Converte a imagem para ASCII
+    ascii.image({
+      filepath: `${__dirname}/imagem-processada.jpg`,
+      alphabet: 'variant2'
+    }, (err, converted) => {
+      if (err) {
+        console.error(err);
+        return;
+      }
+      // Exibe a imagem no terminal
+      console.log(converted);
+    });
+
+    console.log("Imagem processada e mostrada com sucesso!");
+  } catch (error) {
+    console.error("Erro ao processar e mostrar imagem:", error);
+  }
+}
+processAndShowImage();
+
+
+/**************************Cliente**************************/
 app.post('/cadastroCliente', async (req, res) => {
   try {
     const database = client.db("Atlantis");
@@ -130,5 +160,5 @@ app.put('/clientes/:id', async (req, res) => {
 
 
 app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+  console.log(`Servidor rodando em http://localhost:${port}`);
 });
