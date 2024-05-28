@@ -18,7 +18,7 @@ export default function ListarCliente() {
 
     const handleDelete = async (id: string) => {
         try {
-            const response = await fetch(`http://localhost:5000/clientes/${id}`, {
+            const response = await fetch(`http://localhost:5000/deleteCliente/${id}`, {
                 method: 'DELETE',
             });
             if (response.ok) {
@@ -53,26 +53,15 @@ export default function ListarCliente() {
     };
 
     const handleSaveChanges = async () => {
-
-        if (!clienteSelecionado) {
-            alert('Cliente não selecionado.');
-            return;
-        }
-        
-        if (!clienteSelecionado.telefones.every(tel => /^\d+$/.test(tel.numero))) {
-            alert('Preencha o campo Telefone apenas com números.');
-            return;
-        }
-        
-        if (!/^\d+$/.test(clienteSelecionado.rg) || !/^\d+$/.test(clienteSelecionado.cpf)) {
-            alert('O campo de RG e CPF devem conter apenas números.');
-            return;
-        }
-
         try {
             console.log('Cliente selecionado para atualização:', clienteSelecionado);
     
-            const response = await fetch(`http://localhost:5000/clientes/${clienteSelecionado?._id}`, {
+            if (!clienteSelecionado || Object.keys(clienteSelecionado).length === 0) {
+                console.error('Erro: clienteSelecionado vazio ou indefinido.');
+                return;
+            }
+    
+            const response = await fetch(`http://localhost:5000/atualizarCliente/${clienteSelecionado?._id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -100,6 +89,7 @@ export default function ListarCliente() {
             console.error('Erro:', error);
         }
     };
+    
     
     return (
         <>

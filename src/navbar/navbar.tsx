@@ -20,7 +20,7 @@ export default function NavBar() {
                             </NavDropdown>
                             <NavDropdown title="Dependente" id="dependente-dropdown">
                                 <NavDropdown.Item href='/cadastroDependente'>Cadastrar</NavDropdown.Item>
-                                <NavDropdown.Item href='/listarDependente'>Lista</NavDropdown.Item>
+                                <NavDropdown.Item href='/listarDependente'>Listar</NavDropdown.Item>
                             </NavDropdown>
                             <NavDropdown title="Hospedagem" id="hospedagem-dropdown">
                                 <NavDropdown.Item href="/acomodacoes">Acomodações</NavDropdown.Item>

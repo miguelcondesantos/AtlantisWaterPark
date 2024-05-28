@@ -4,5 +4,5 @@ export default interface Dependente{
     nome: string;
     nomeSocial: string;
     dataNascimento: string;
-    telefone: Endereco[];
+    endereco: Endereco[];
 }

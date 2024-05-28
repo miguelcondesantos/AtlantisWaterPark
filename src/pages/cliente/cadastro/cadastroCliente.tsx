@@ -107,9 +107,11 @@ export default function CadastroCliente() {
         if (!cliente.nome || !cliente.nomeSocial || !cliente.dataNascimento || !cliente.telefones.every(tel => tel.numero) || 
             !cliente.enderecos.every(endereco => endereco.rua && endereco.bairro && endereco.cidade && endereco.estado && endereco.pais && endereco.codigoPostal) || 
             !cliente.rg || !cliente.cpf || !cliente.passaporte) {
+            console.log('Pelo menos um campo está vazio:', cliente);
             alert('Por favor, preencha todos os campos.');
             return;
         }
+
 
         if (!cliente.telefones.every(tel => /^\d+$/.test(tel.numero))) {
             alert('Por favor, preencha o campo Telefone apenas com números.');
@@ -134,8 +136,27 @@ export default function CadastroCliente() {
 
         if (response.ok) {
             alert('Cliente cadastrado com sucesso!');
+            setCliente({
+                _id: '',
+                nome: '',
+                nomeSocial: '',
+                dataNascimento: '',
+                telefones: [{ numero: '' }],
+                enderecos: [{
+                    rua: '',
+                    bairro: '',
+                    cidade: '',
+                    estado: '',
+                    pais: '',
+                    codigoPostal: ''
+                }],
+                rg: '',
+                cpf: '',
+                passaporte: '',
+                dependente: [],
+            });
         } else {
-            alert('Falha ao cadastrar cliente.');
+            alert('Falha ao cadastrar cliente. Documento já existe.');
         }
         } catch (error) {
         console.error('Erro:', error);
