@@ -8,6 +8,7 @@ export default function ListarCliente() {
     const [clientes, setClientes] = useState<Cliente[]>([]);
     const [clienteSelecionado, setClienteSelecionado] = useState<Cliente | null>(null);
     const [modalShow, setModalShow] = useState(false);
+    const [searchTerm, setSearchTerm] = useState<string>("");
 
     useEffect(() => {
         fetch('http://localhost:5000/clientes')
@@ -91,6 +92,10 @@ export default function ListarCliente() {
     };
     
     
+    const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchTerm(event.target.value);
+    };
+
     return (
         <>
             <NavBar />
@@ -98,7 +103,12 @@ export default function ListarCliente() {
                 <h1>Lista de Clientes</h1>
                 <Form className="mb-4">
                     <Form.Group controlId="formBusca">
-                        <Form.Control type="text" placeholder="Buscar cliente por nome" />
+                        <Form.Control 
+                            type="text" 
+                            placeholder="Buscar cliente por nome" 
+                            value={searchTerm}
+                            onChange={handleSearchChange}
+                        />
                     </Form.Group>
                 </Form>
                 <Table striped bordered hover className="mb-4">
@@ -106,23 +116,26 @@ export default function ListarCliente() {
                         <tr>
                             <th>Id</th>
                             <th>Nome</th>
+                            <th>CPF</th>
                             <th>Opções</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {clientes.map(cliente => (
-                            <tr key={cliente._id}>
-                                <td>{cliente._id}</td>
-                                <td>{cliente.nome}</td>
-                                <td>
-                                    <Button variant="primary" size="sm" className="me-2" onClick={() => handleEdit(cliente._id)}>Editar</Button>
-                                    <Button variant="danger" size="sm" onClick={() => handleDelete(cliente._id)}>Excluir</Button>
-                                </td>
-                            </tr>
-                        ))}
+                        {clientes
+                            .filter(cliente => cliente.nome.toLowerCase().includes(searchTerm.toLowerCase()))
+                            .map(cliente => (
+                                <tr key={cliente._id}>
+                                    <td>{cliente._id}</td>
+                                    <td>{cliente.nome}</td>
+                                    <td>{cliente.cpf}</td>
+                                    <td>
+                                        <Button variant="primary" size="sm" className="me-2" onClick={() => handleEdit(cliente._id)}>Editar</Button>
+                                        <Button variant="danger" size="sm" onClick={() => handleDelete(cliente._id)}>Excluir</Button>
+                                    </td>
+                                </tr>
+                            ))}
                     </tbody>
                 </Table>
-
                 {clienteSelecionado && (
                     <Modal show={modalShow} onHide={handleCloseModal}>
                     <Modal.Header closeButton>
@@ -130,6 +143,7 @@ export default function ListarCliente() {
                     </Modal.Header>
                     <Modal.Body>
                         <Form>
+                            <Form.Label><b>Informações</b></Form.Label>
                             <Form.Group>
                                 <Form.Label>Nome</Form.Label>
                                 <Form.Control
@@ -173,7 +187,7 @@ export default function ListarCliente() {
                             </Form.Group>
 
                             <Form.Group>
-                                <Form.Label>Endereços</Form.Label>
+                                <Form.Label><b>Endereços</b></Form.Label>
                                 {clienteSelecionado.enderecos.map((endereco, index) => (
                                     <div key={index} className="mb-2">
                                         <Form.Label>Rua</Form.Label>
@@ -245,7 +259,8 @@ export default function ListarCliente() {
                                     </div>
                                 ))}
                             </Form.Group>
-
+                            
+                            <Form.Label><b>Documentos</b></Form.Label>
                             <Form.Group>
                                 <Form.Label>RG</Form.Label>
                                 <Form.Control

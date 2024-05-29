@@ -108,7 +108,8 @@ app.get('/clientes', async (req, res) => {
       res.status(500).send(e);
     }
 });
-  
+
+
 app.delete('/deleteCliente/:id', async (req, res) => {
     try {
       const { id } = req.params;
@@ -124,6 +125,7 @@ app.delete('/deleteCliente/:id', async (req, res) => {
       res.status(500).send(e);
     }
 });
+
 
 app.get('/clientes/:id', async (req, res) => {
     try {
@@ -141,14 +143,16 @@ app.get('/clientes/:id', async (req, res) => {
     }
 });
 
+
 app.put('/atualizarCliente/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const { nome, nomeSocial, dataNascimento, telefones, enderecos, rg, cpf, passaporte } = req.body;
     const database = client.db("Atlantis");
     const colecao = database.collection("Usuario");
-    
+
     const clienteAtualizado = {
+      $set: {
         nome,
         nomeSocial,
         dataNascimento,
@@ -157,19 +161,21 @@ app.put('/atualizarCliente/:id', async (req, res) => {
         rg,
         cpf,
         passaporte
+      }
     };
 
-    const result = await colecao.replaceOne({ _id: new ObjectId(id) }, clienteAtualizado);
+    const result = await colecao.updateOne({ _id: new ObjectId(id) }, clienteAtualizado);
 
     if (result.modifiedCount === 1) {
-        res.status(200).send({ message: "Cliente atualizado com sucesso!" });
+      res.status(200).send({ message: "Cliente atualizado com sucesso!" });
     } else {
-        res.status(404).send({ message: "Cliente não encontrado!" });
+      res.status(404).send({ message: "Cliente não encontrado!" });
     }
-} catch (e) {
+  } catch (e) {
     res.status(500).send(e);
-}
+  }
 });
+
 
 
 
@@ -178,14 +184,17 @@ app.get('/acomodacoes', async (req, res) => {
   try {
     const database = client.db('Atlantis');
     const colecao = database.collection('Acomodacoes');
-
     const acomodacoes = await colecao.find({}).toArray();
 
     res.status(200).json(acomodacoes);
   } catch (err) {
-    console.error('Erro ao buscar acomodações', err);
+    console.error('Erro ao buscar acomodações:', err);
+    res.status(500).send('Erro ao buscar acomodações');
   }
 });
+
+
+
 
 
 /**************************Dependente**************************/
@@ -222,7 +231,105 @@ app.post('/clientes/:id/cadastroDependente', async (req, res) => {
   }
 });
 
-app.get('/dependente/:id')
+
+app.put('/editarDependente/:id', async (req, res) => {
+  try {
+      const { id } = req.params;
+      const { nome, nomeSocial, endereco, dataNascimento } = req.body;
+
+      const database = client.db("Atlantis");
+      const colecao = database.collection("Usuario");
+
+      const result = await colecao.updateOne(
+          { "dependentes._id": new ObjectId(id) },
+          {
+              $set: {
+                  "dependentes.$.nome": nome,
+                  "dependentes.$.nomeSocial": nomeSocial,
+                  "dependentes.$.endereco": endereco,
+                  "dependentes.$.dataNascimento": dataNascimento
+              }
+          }
+      );
+
+      console.log('ID do dependente:', id);
+      console.log('Dados recebidos:', req.body);
+
+      if (result.modifiedCount === 1) {
+          res.status(200).send({ message: "Dependente atualizado com sucesso!" });
+      } else {
+          res.status(404).send({ message: "Dependente não encontrado!" });
+      }
+  } catch (e) {
+      res.status(500).send(e);
+  }
+});
+
+
+app.delete('/deleteDependente/:id', async (req, res) => {
+  try {
+      const { id } = req.params;
+      const database = client.db("Atlantis");
+      const colecao = database.collection("Usuario");
+      const result = await colecao.updateOne(
+          {},
+          { $pull: { dependentes: { _id: new ObjectId(id) } } }
+      );
+      if (result.modifiedCount === 1) {
+          res.status(200).send({ message: "Dependente excluído com sucesso!" });
+      } else {
+          res.status(404).send({ message: "Dependente não encontrado!" });
+      }
+  } catch (e) {
+      res.status(500).send(e);
+  }
+});
+
+
+
+
+/**************************Hospedagem**************************/
+app.post('/realizarHospedagem/:clienteId/:acomodacaoId', async (req, res) => {
+  try {
+    const { clienteId, acomodacaoId } = req.params;
+
+    const database = client.db("Atlantis");
+    const clientesCollection = database.collection("Usuario");
+    const acomodacoesCollection = database.collection("Acomodacoes");
+
+    const cliente = await clientesCollection.findOne({ _id: new ObjectId(clienteId), hospedagem: { $exists: true, $ne: [] } });
+    if (cliente) {
+      const acomodacaoHospedado = await acomodacoesCollection.findOne({ clientes: clienteId });
+      return res.status(400).send({ message: `Cliente já está hospedado na acomodação ${acomodacaoHospedado.nome}!` });
+    }
+
+    const clienteInfo = await clientesCollection.findOne({ _id: new ObjectId(clienteId) });
+    if (!clienteInfo) {
+      return res.status(404).send({ message: "Cliente não encontrado!" });
+    }
+
+    const acomodacaoInfo = await acomodacoesCollection.findOne({ _id: new ObjectId(acomodacaoId) });
+    if (!acomodacaoInfo) {
+      return res.status(404).send({ message: "Acomodação não encontrada!" });
+    }
+
+    await clientesCollection.updateOne(
+      { _id: new ObjectId(clienteId) },
+      { $push: { hospedagem: acomodacaoInfo } }
+    );
+
+    await acomodacoesCollection.updateOne(
+      { _id: new ObjectId(acomodacaoId) },
+      { $push: { clientes: clienteInfo } }
+    );
+
+    res.status(200).send({ message: "Hospedagem realizada com sucesso!" });
+  } catch (error) {
+    console.error("Erro ao realizar hospedagem:", error);
+    res.status(500).send({ message: "Erro ao realizar hospedagem." });
+  }
+});
+
 
 app.listen(port, () => {
   console.log(`Servidor rodando em http://localhost:${port}`);

@@ -1,6 +1,7 @@
 import Endereco from "./interfaceEndereco";
 import Telefone from "./interfaceTelefone";
 import Dependente from "./interfaceDependente";
+import Acomodacao from "./interfaceAcomodacoes";
 
 export default interface Cliente {
     _id: string;
@@ -12,5 +13,6 @@ export default interface Cliente {
     rg: string;
     cpf: string;
     passaporte: string;
-    dependente: Dependente[];
+    dependentes: Dependente[];
+    hospedagem: Acomodacao[];
 }

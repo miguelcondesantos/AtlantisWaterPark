@@ -1,95 +1,55 @@
-import NavBar from "../../../navbar/navbar";
+import React, { useState, useEffect } from "react";
 import { Container, Card, ListGroup, Form } from 'react-bootstrap';
+import NavBar from "../../../navbar/navbar";
 import "./listarHospedes.css";
+import Acomodacao from "../../../interfaces/interfaceAcomodacoes";
 
 export default function ListarHospedes() {
+    const [acomodacoes, setAcomodacoes] = useState<Acomodacao[]>([]);
+    const [searchTerm, setSearchTerm] = useState<string>("");
+
+    useEffect(() => {
+        fetch('http://localhost:5000/acomodacoes')
+            .then(response => response.json())
+            .then(data => {
+                setAcomodacoes(data);
+            })
+            .catch(error => console.error('Erro ao buscar acomodações:', error));
+    }, []);
+
+    const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchTerm(event.target.value);
+    };
+
     return (
         <>
             <NavBar />
             <Container className="container-geral">
                 <h1>Listar Hospedes por Acomodação</h1>
 
-                <div className="acomodacao-container">
-                    <Card className="mb-4">
-                        <Card.Body>
-                            <Card.Title>Acomodação simples para solteiro(a)</Card.Title>
-                            <Form.Control type="text" placeholder="Pesquisar hóspede" className="mb-3" />
-                            <ListGroup className="list-group" variant="flush">
-                                <ListGroup.Item>Cliente 1</ListGroup.Item>
-                                <ListGroup.Item>Cliente 2</ListGroup.Item>
-                                <ListGroup.Item>Cliente 3</ListGroup.Item>
-                                <ListGroup.Item>Cliente 4</ListGroup.Item>
-                            </ListGroup>
-                        </Card.Body>
-                    </Card>
-                </div>
-
-                <div className="acomodacao-container">
-                    <Card className="mb-4">
-                        <Card.Body>
-                            <Card.Title>Acomodação simples para casal</Card.Title>
-                            <Form.Control type="text" placeholder="Pesquisar hóspede" className="mb-3" />
-                            <ListGroup className="list-group" variant="flush">
-                                <ListGroup.Item>Cliente 5</ListGroup.Item>
-                                <ListGroup.Item>Cliente 6</ListGroup.Item>
-                                <ListGroup.Item>Cliente 7</ListGroup.Item>
-                                <ListGroup.Item>Cliente 8</ListGroup.Item>
-                            </ListGroup>
-                        </Card.Body>
-                    </Card>
-                </div>
-
-                <div className="acomodacao-container">
-                    <Card className="mb-4">
-                        <Card.Body>
-                            <Card.Title>Acomodação para família com até duas crianças</Card.Title>
-                            <Form.Control type="text" placeholder="Pesquisar hóspede" className="mb-3" />
-                            <ListGroup className="list-group" variant="flush">
-                                <ListGroup.Item>Cliente 9</ListGroup.Item>
-                                <ListGroup.Item>Cliente 10</ListGroup.Item>
-                            </ListGroup>
-                        </Card.Body>
-                    </Card>
-                </div>
-
-                <div className="acomodacao-container">
-                    <Card className="mb-4">
-                        <Card.Body>
-                            <Card.Title>Acomodação para família com até cinco crianças</Card.Title>
-                            <Form.Control type="text" placeholder="Pesquisar hóspede" className="mb-3" />
-                            <ListGroup className="list-group" variant="flush">
-                                <ListGroup.Item>Cliente 11</ListGroup.Item>
-                                <ListGroup.Item>Cliente 12</ListGroup.Item>
-                            </ListGroup>
-                        </Card.Body>
-                    </Card>
-                </div>
-
-                <div className="acomodacao-container">
-                    <Card className="mb-4">
-                        <Card.Body>
-                            <Card.Title>Acomodação para até duas famílias, casal e três crianças cada</Card.Title>
-                            <Form.Control type="text" placeholder="Pesquisar hóspede" className="mb-3" />
-                            <ListGroup className="list-group" variant="flush">
-                                <ListGroup.Item>Cliente 13</ListGroup.Item>
-                                <ListGroup.Item>Cliente 14</ListGroup.Item>
-                            </ListGroup>
-                        </Card.Body>
-                    </Card>
-                </div>
-
-                <div className="acomodacao-container">
-                    <Card className="mb-4">
-                        <Card.Body>
-                            <Card.Title>Acomodação com garagem para solteiro(a)</Card.Title>
-                            <Form.Control type="text" placeholder="Pesquisar hóspede" className="mb-3" />
-                            <ListGroup className="list-group" variant="flush">
-                                <ListGroup.Item>Cliente 15</ListGroup.Item>
-                                <ListGroup.Item>Cliente 16</ListGroup.Item>
-                            </ListGroup>
-                        </Card.Body>
-                    </Card>
-                </div>
+                {acomodacoes && acomodacoes.map(acomodacao => (
+                    <div key={acomodacao._id} className="acomodacao-container">
+                        <Card className="mb-4">
+                            <Card.Body>
+                                <Card.Title>{acomodacao.nome}</Card.Title>
+                                <Form.Control 
+                                    type="text" 
+                                    placeholder="Pesquisar hóspede" 
+                                    className="mb-3"
+                                    value={searchTerm}
+                                    onChange={handleSearchChange}
+                                />
+                                <ListGroup className="list-group" variant="flush">
+                                    {acomodacao.clientes && acomodacao.clientes
+                                        .filter(cliente => cliente.nome.toLowerCase().includes(searchTerm.toLowerCase()))
+                                        .map(cliente => (
+                                            <ListGroup.Item key={cliente._id}>{cliente.nome}</ListGroup.Item>
+                                        ))}
+                                </ListGroup>
+                            </Card.Body>
+                        </Card>
+                    </div>
+                ))}
             </Container>
         </>
     );

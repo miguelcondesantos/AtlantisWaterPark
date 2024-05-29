@@ -1,3 +1,5 @@
+import Cliente from "./interfaceCliente";
+
 export default interface Acomodacao{
     _id: string;
     leitos_solteiros: string;
@@ -6,4 +8,5 @@ export default interface Acomodacao{
     garagens_disponiveis: string;
     suites: string;
     nome: string;
+    clientes: Cliente[]
 }

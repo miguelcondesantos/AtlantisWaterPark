@@ -8,6 +8,7 @@ type FormControlElement = HTMLInputElement | HTMLSelectElement | HTMLTextAreaEle
 
 export default function CadastroCliente() {
     const [dependente, setDependente] = useState<Dependente>({
+        _id: '',
         nome: '',
         nomeSocial: '',
         dataNascimento: '',
@@ -97,6 +98,7 @@ export default function CadastroCliente() {
             if (response.ok) {
                 alert("Dependente cadastrado com sucesso!")
                 setDependente({
+                    _id: '',
                     nome: '',
                     nomeSocial: '',
                     dataNascimento: '',

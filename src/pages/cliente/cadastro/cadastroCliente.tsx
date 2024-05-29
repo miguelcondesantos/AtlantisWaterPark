@@ -24,7 +24,8 @@ export default function CadastroCliente() {
         rg: '',
         cpf: '',
         passaporte: '',
-        dependente:[],
+        dependentes:[],
+        hospedagem: [],
     });
 
     const handleChange = (e: ChangeEvent<FormControlElement>) => {
@@ -153,7 +154,8 @@ export default function CadastroCliente() {
                 rg: '',
                 cpf: '',
                 passaporte: '',
-                dependente: [],
+                dependentes: [],
+                hospedagem: []
             });
         } else {
             alert('Falha ao cadastrar cliente. Documento já existe.');
