@@ -1,4 +1,12 @@
 # AtlantisWaterPark
+## Como rodar o backend
+```bash
+cd .\src\backend\
+```
+```bash
+node server.js
+```
+
 >[!NOTE]
 >*Os exercícios se encontram nas branchs*
 
