@@ -1,0 +1,33 @@
+.cadastroAAA{
+    position: relative;
+    background-color: #4cb2ff;
+    border-radius: 25px;
+    width: 50%; 
+    text-align: center;
+    margin: auto;
+    margin-top: 6%;
+    padding: 20px;
+    height: 15%;  
+    box-sizing: border-box;
+}
+
+
+.botaoAAA {
+    color: #1976d2;
+    background-color: #80cbc4;
+    font-size: 20px;
+    width: 200px;
+    height: 70px;
+    display: inline-block;
+    margin-top: 20px;
+}
+
+
+.selectAAA{
+    font-size: 15px;
+    color: black !important;
+}
+
+.formAAA{
+    position: relative;
+}
